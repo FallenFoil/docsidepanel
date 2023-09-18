@@ -14,8 +14,56 @@
   "contributes": {
     "commands": [
       {
-        "command": "docsidepanel.openDoc",
-        "title": "Open Document"
+        "command": "docsidepanel.documentationPath",
+        "title": "Documentation Path"
+      },
+      {
+        "command": "docsidepanel.newFile",
+        "title": "New File...",
+        "icon": {
+          "light": "resources/icons/light/new-file.svg",
+          "dark": "resources/icons/dark/new-file.svg"
+        }
+      },
+      {
+        "command": "docsidepanel.newFolder",
+        "title": "New Folder...",
+        "icon": {
+          "light": "resources/icons/light/new-folder.svg",
+          "dark": "resources/icons/dark/new-folder.svg"
+        }
+      },
+      {
+        "command": "docsidepanel.refresh",
+        "title": "Refresh Explorer",
+        "icon": {
+          "light": "resources/icons/light/refresh.svg",
+          "dark": "resources/icons/dark/refresh.svg"
+        }
+      },
+      {
+        "command": "docsidepanel.collapse",
+        "title": "Collapse Folders in Explorer",
+        "icon": {
+          "light": "resources/icons/light/collapse-all.svg",
+          "dark": "resources/icons/dark/collapse-all.svg"
+        }
+      },
+      {
+        "command": "docsidepanel.file.cut",
+        "title": "Cut"
+      },
+      {
+        "command": "docsidepanel.file.copy",
+        "title": "Copy"
+      },
+      {
+        "command": "docsidepanel.file.rename",
+        "title": "Rename"
+      },
+      {
+        "command": "docsidepanel.file.delete",
+        "title": "Delete"
       }
     ],
     "viewsContainers": {
@@ -30,9 +78,57 @@
     "views": {
       "documentationSidePanel": [
         {
-          "id": "explorer",
+          "id": "documents",
           "name": "Documentation list",
           "contextualTitle": "The list of documents"
+        }
+      ]
+    },
+    "viewsWelcome": [
+      {
+        "view": "documents",
+        "contents": "No Documentation folder defined.\n[Open Doc folder](command:docsidepanel.documentationPath)"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "docsidepanel.newFile",
+          "when": "view == documents",
+          "group": "navigation@1"
+        },
+        {
+          "command": "docsidepanel.newFolder",
+          "when": "view == documents",
+          "group": "navigation@2"
+        },
+        {
+          "command": "docsidepanel.refresh",
+          "when": "view == documents",
+          "group": "navigation@3"
+        },
+        {
+          "command": "docsidepanel.collapse",
+          "when": "view == documents",
+          "group": "navigation@4"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "docsidepanel.file.cut",
+          "when": "view == documents"
+        },
+        {
+          "command": "docsidepanel.file.copy",
+          "when": "view == documents"
+        },
+        {
+          "command": "docsidepanel.file.rename",
+          "when": "view == documents"
+        },
+        {
+          "command": "docsidepanel.file.delete",
+          "when": "view == documents"
         }
       ]
     }
