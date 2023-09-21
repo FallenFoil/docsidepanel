@@ -2,7 +2,8 @@
   "name": "docsidepanel",
   "displayName": "DocSidePanel",
   "description": "A side panel to access a folder with all the documentation in markdown",
-  "version": "0.0.1",
+  "version": "1.0.0",
+  "repository": "https://github.com/FallenFoil/docsidepanel",
   "engines": {
     "vscode": "^1.81.0"
   },
