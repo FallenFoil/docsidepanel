@@ -11,8 +11,11 @@ export class DocumentationProvider implements vscode.TreeDataProvider<Document> 
 
   private _onDidChangeTreeData: vscode.EventEmitter<Document | undefined | null | void> = new vscode.EventEmitter<Document | undefined | null | void>();
   readonly onDidChangeTreeData: vscode.Event<Document | undefined | null | void> = this._onDidChangeTreeData.event;
+  private docPath: string;
 
-  constructor() {}
+  constructor(docPath: string) {
+    this.docPath = docPath;
+  }
 
   refresh(): void {
     this._onDidChangeTreeData.fire();
@@ -40,7 +43,7 @@ export class DocumentationProvider implements vscode.TreeDataProvider<Document> 
 
       return Promise.resolve([]);
     } else {
-      const globalPath = '/home/fallenfoil/Projects/vscode-extensions/docsidepanel/docTest';
+      const globalPath = this.docPath;
       let files: fs.Dirent[] = getFilesFolders(globalPath);
 
       let docArray: Document[] = [];
@@ -64,7 +67,7 @@ export class Document extends vscode.TreeItem {
     public isDir: boolean
   ) {
     super(label, collapsibleState);
-    this.tooltip = `${this.label}`;
+    this.tooltip = `${this.uri.path}`;
     this.uri = uri;
     this.isDir = isDir;
 

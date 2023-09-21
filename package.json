@@ -42,14 +42,6 @@
         }
       },
       {
-        "command": "docsidepanel.collapse",
-        "title": "Collapse Folders in Explorer",
-        "icon": {
-          "light": "resources/icons/light/collapse-all.svg",
-          "dark": "resources/icons/dark/collapse-all.svg"
-        }
-      },
-      {
         "command": "docsidepanel.file.cut",
         "title": "Cut"
       },
@@ -106,11 +98,6 @@
           "command": "docsidepanel.refresh",
           "when": "view == documents",
           "group": "navigation@3"
-        },
-        {
-          "command": "docsidepanel.collapse",
-          "when": "view == documents",
-          "group": "navigation@4"
         }
       ],
       "view/item/context": [
