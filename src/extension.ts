@@ -4,7 +4,7 @@ import { DocumentationProvider, Document } from './TreeDataProvider';
 import { cutFile, copyFile, renameFile, deleteFile } from './fileOperations';
 import { createFile, createFolder } from './folderOperations';
 
-let docPath = '/home/fallenfoil/Projects/vscode-extensions/docsidepanel/docTest';
+let docPath = '~/Documentation';
 
 export function activate(context: vscode.ExtensionContext) {
 	const documentProvider: DocumentationProvider = new DocumentationProvider(docPath);
