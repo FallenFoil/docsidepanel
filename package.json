@@ -16,7 +16,7 @@
     "commands": [
       {
         "command": "docsidepanel.documentationPath",
-        "title": "Documentation Path"
+        "title": "Change documentation path"
       },
       {
         "command": "docsidepanel.newFile",
@@ -63,7 +63,7 @@
       "activitybar": [
         {
           "id": "documentationSidePanel",
-          "title": "Panel for Documentation",
+          "title": "Documentation",
           "icon": "resources/icons/light/book.svg"
         }
       ]
@@ -80,7 +80,7 @@
     "viewsWelcome": [
       {
         "view": "documents",
-        "contents": "No Documentation folder defined.\n[Open Doc folder](command:docsidepanel.documentationPath)"
+        "contents": "No Documentation folder defined or its empty.\n[Open Doc folder](command:docsidepanel.documentationPath)"
       }
     ],
     "menus": {
@@ -99,6 +99,10 @@
           "command": "docsidepanel.refresh",
           "when": "view == documents",
           "group": "navigation@3"
+        },
+        {
+          "command": "docsidepanel.documentationPath",
+          "when": "view == documents"
         }
       ],
       "view/item/context": [
@@ -119,6 +123,16 @@
           "when": "view == documents"
         }
       ]
+    },
+    "configuration": {
+      "title": "Doc",
+      "properties": {
+        "doc.path": {
+          "type": ["string", "null"],
+          "default": null,
+          "description": "Absolute path to the Documentation folder"
+        }
+      }
     }
   },
   "scripts": {

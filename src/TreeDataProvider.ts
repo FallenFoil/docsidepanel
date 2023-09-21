@@ -3,7 +3,16 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 function getFilesFolders(path: string): fs.Dirent[] {
-  return fs.readdirSync(path, {withFileTypes: true, recursive: true});
+  if(!fs.existsSync(path)){
+    return [];
+  }
+  let items = fs.readdirSync(path, {withFileTypes: true, recursive: true});
+
+  if(items.length === 0){
+    vscode.window.showErrorMessage('The selected Documentation folder is empty!');
+  }
+
+  return items;
 }
 
 
@@ -11,11 +20,8 @@ export class DocumentationProvider implements vscode.TreeDataProvider<Document> 
 
   private _onDidChangeTreeData: vscode.EventEmitter<Document | undefined | null | void> = new vscode.EventEmitter<Document | undefined | null | void>();
   readonly onDidChangeTreeData: vscode.Event<Document | undefined | null | void> = this._onDidChangeTreeData.event;
-  private docPath: string;
 
-  constructor(docPath: string) {
-    this.docPath = docPath;
-  }
+  constructor() {}
 
   refresh(): void {
     this._onDidChangeTreeData.fire();
@@ -43,7 +49,7 @@ export class DocumentationProvider implements vscode.TreeDataProvider<Document> 
 
       return Promise.resolve([]);
     } else {
-      const globalPath = this.docPath;
+      const globalPath = vscode.workspace.getConfiguration('doc').get('path', '');
       let files: fs.Dirent[] = getFilesFolders(globalPath);
 
       let docArray: Document[] = [];

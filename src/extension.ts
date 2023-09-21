@@ -4,10 +4,20 @@ import { DocumentationProvider, Document } from './TreeDataProvider';
 import { cutFile, copyFile, renameFile, deleteFile } from './fileOperations';
 import { createFile, createFolder } from './folderOperations';
 
-let docPath = '~/Documentation';
+
+async function setDocPath(documentProvider: DocumentationProvider) {
+	let folderUri = await vscode.window.showOpenDialog({title: 'Select the Documentation folder', openLabel: 'Select', canSelectFiles: false, canSelectFolders: true, canSelectMany: false});
+	if(!folderUri){
+		return;
+	}
+
+	await vscode.workspace.getConfiguration('doc').update('path', folderUri[0].path, true);
+	documentProvider.refresh();
+}
 
 export function activate(context: vscode.ExtensionContext) {
-	const documentProvider: DocumentationProvider = new DocumentationProvider(docPath);
+	let docPath = vscode.workspace.getConfiguration('doc').get('path', '');
+	const documentProvider: DocumentationProvider = new DocumentationProvider();
 	vscode.window.registerTreeDataProvider('documents', documentProvider);
 
 	const watcher = vscode.workspace.createFileSystemWatcher(new vscode.RelativePattern(vscode.Uri.file(docPath), "*"));
@@ -15,7 +25,7 @@ export function activate(context: vscode.ExtensionContext) {
 	watcher.onDidCreate(_ => documentProvider.refresh());
 	watcher.onDidDelete(_ => documentProvider.refresh());
 
-	let setDocumentationPath = vscode.commands.registerCommand('docsidepanel.documentationPath', () => {});
+	let setDocumentationPath = vscode.commands.registerCommand('docsidepanel.documentationPath', () => setDocPath(documentProvider));
 	let newFile = vscode.commands.registerCommand('docsidepanel.newFile', () => createFile(docPath));
 	let newFolder = vscode.commands.registerCommand('docsidepanel.newFolder', () => createFolder(docPath));
 	let refresh = vscode.commands.registerCommand('docsidepanel.refresh', () => documentProvider.refresh());
