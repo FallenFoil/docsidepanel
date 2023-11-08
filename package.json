@@ -107,14 +107,6 @@
       ],
       "view/item/context": [
         {
-          "command": "docsidepanel.file.cut",
-          "when": "view == documents"
-        },
-        {
-          "command": "docsidepanel.file.copy",
-          "when": "view == documents"
-        },
-        {
           "command": "docsidepanel.file.rename",
           "when": "view == documents"
         },

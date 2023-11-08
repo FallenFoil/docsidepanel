@@ -11,7 +11,7 @@ async function setDocPath(documentProvider: DocumentationProvider) {
 		return;
 	}
 
-	await vscode.workspace.getConfiguration('doc').update('path', folderUri[0].path, true);
+	await vscode.workspace.getConfiguration('doc').update('path', folderUri[0].fsPath, true);
 	documentProvider.refresh();
 }
 
