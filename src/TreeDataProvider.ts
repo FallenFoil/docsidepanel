@@ -34,13 +34,14 @@ export class DocumentationProvider implements vscode.TreeDataProvider<Document> 
   getChildren(element?: Document): Thenable<Document[]> {
     if (element) {
       if (element.isDir) {
-        const globalPath = element.uri.path;
+        const globalPath = element.uri.fsPath;
         let files: fs.Dirent[] = getFilesFolders(globalPath);
         
         let docArray: Document[] = [];
         files.forEach((value) => {
           let uriFile = vscode.Uri.file(path.join(globalPath, value.name));
-          let doc = new Document(value.name, element.isDir ? vscode.TreeItemCollapsibleState.Collapsed : vscode.TreeItemCollapsibleState.None, uriFile, value.isDirectory());
+          const isDir = value.isDirectory();
+          let doc = new Document(value.name, isDir ? vscode.TreeItemCollapsibleState.Collapsed : vscode.TreeItemCollapsibleState.None, uriFile, isDir);
           docArray.push(doc);
         });
 
@@ -73,7 +74,7 @@ export class Document extends vscode.TreeItem {
     public isDir: boolean
   ) {
     super(label, collapsibleState);
-    this.tooltip = `${this.uri.path}`;
+    this.tooltip = `${this.uri.fsPath}`;
     this.uri = uri;
     this.isDir = isDir;
 
