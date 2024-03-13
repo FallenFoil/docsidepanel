@@ -2,17 +2,33 @@ import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
 
-function getFilesFolders(path: string): fs.Dirent[] {
+function getFilesFolders(path: string): string[] {
   if(!fs.existsSync(path)){
     return [];
   }
-  let items = fs.readdirSync(path, {withFileTypes: true, recursive: true});
+  
+  let items: string[] = fs.readdirSync(path, {encoding: 'utf8', withFileTypes: false, recursive: false});
 
   if(items.length === 0){
     vscode.window.showErrorMessage('The selected Documentation folder is empty!');
   }
 
   return items;
+}
+
+function sortByDirectory(docs: Document[]): Document[] {
+  let onlyDirs: Document[] = [];
+  let onlyFiles: Document[] = [];
+
+  docs.forEach((doc) => {
+    if(doc.isDir){
+      onlyDirs.push(doc);
+    } else {
+      onlyFiles.push(doc);
+    }
+  });
+
+  return onlyDirs.concat(onlyFiles);
 }
 
 
@@ -35,15 +51,17 @@ export class DocumentationProvider implements vscode.TreeDataProvider<Document> 
     if (element) {
       if (element.isDir) {
         const globalPath = element.uri.fsPath;
-        let files: fs.Dirent[] = getFilesFolders(globalPath);
+        let files: string[] = getFilesFolders(globalPath);
         
         let docArray: Document[] = [];
         files.forEach((value) => {
-          let uriFile = vscode.Uri.file(path.join(globalPath, value.name));
-          const isDir = value.isDirectory();
-          let doc = new Document(value.name, isDir ? vscode.TreeItemCollapsibleState.Collapsed : vscode.TreeItemCollapsibleState.None, uriFile, isDir);
+          let uriFile = vscode.Uri.file(path.join(globalPath, value));
+          const isDir = fs.lstatSync(path.join(globalPath, value)).isDirectory();
+          let doc = new Document(value, isDir ? vscode.TreeItemCollapsibleState.Collapsed : vscode.TreeItemCollapsibleState.None, uriFile, isDir);
           docArray.push(doc);
         });
+
+        docArray = sortByDirectory(docArray);
 
         return Promise.resolve(docArray);
       }
@@ -51,15 +69,18 @@ export class DocumentationProvider implements vscode.TreeDataProvider<Document> 
       return Promise.resolve([]);
     } else {
       const globalPath = vscode.workspace.getConfiguration('doc').get('path', '');
-      let files: fs.Dirent[] = getFilesFolders(globalPath);
+
+      let files: string[] = getFilesFolders(globalPath);
 
       let docArray: Document[] = [];
       files.forEach((value) => {
-        let uriFile = vscode.Uri.file(path.join(globalPath, value.name));
-        const isDir = value.isDirectory();
-        let doc = new Document(value.name, isDir ? vscode.TreeItemCollapsibleState.Collapsed : vscode.TreeItemCollapsibleState.None, uriFile, isDir);
+        let uriFile = vscode.Uri.file(path.join(globalPath, value));
+        const isDir = fs.lstatSync(path.join(globalPath, value)).isDirectory();
+        let doc = new Document(value, isDir ? vscode.TreeItemCollapsibleState.Collapsed : vscode.TreeItemCollapsibleState.None, uriFile, isDir);
         docArray.push(doc);
       });
+
+      docArray = sortByDirectory(docArray);
 
       return Promise.resolve(docArray);
     }
