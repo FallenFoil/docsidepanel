@@ -8,6 +8,8 @@ function getFilesFolders(path: string): string[] {
   }
   
   let items: string[] = fs.readdirSync(path, {encoding: 'utf8', withFileTypes: false, recursive: false});
+  var collator = new Intl.Collator(undefined, {numeric: true, sensitivity: 'base'});
+  items = items.sort(collator.compare);
 
   if(items.length === 0){
     vscode.window.showErrorMessage('The selected Documentation folder is empty!');
