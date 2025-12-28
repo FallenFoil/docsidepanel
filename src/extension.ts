@@ -25,8 +25,8 @@ export function activate(context: vscode.ExtensionContext) {
 	watcher.onDidDelete(_ => documentProvider.refresh());
 
 	let setDocumentationPath = vscode.commands.registerCommand('docsidepanel.documentationPath', () => setDocPath(documentProvider));
-	let newFile = vscode.commands.registerCommand('docsidepanel.newFile', () => createFile(vscode.workspace.getConfiguration('doc').get('path', '')));
-	let newFolder = vscode.commands.registerCommand('docsidepanel.newFolder', () => createFolder(vscode.workspace.getConfiguration('doc').get('path', '')));
+	let newFile = vscode.commands.registerCommand('docsidepanel.newFile', (doc?: Document) => createFile(vscode.workspace.getConfiguration('doc').get('path', ''), doc));
+	let newFolder = vscode.commands.registerCommand('docsidepanel.newFolder', (doc?: Document) => createFolder(vscode.workspace.getConfiguration('doc').get('path', ''), doc));
 	let refresh = vscode.commands.registerCommand('docsidepanel.refresh', () => documentProvider.refresh());
 	let fileCut = vscode.commands.registerCommand('docsidepanel.file.cut', (doc?: Document) => cutFile(doc));
 	let fileCopy = vscode.commands.registerCommand('docsidepanel.file.copy', (doc?: Document) => copyFile(doc));

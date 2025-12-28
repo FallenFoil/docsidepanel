@@ -20,7 +20,7 @@
       },
       {
         "command": "docsidepanel.newFile",
-        "title": "New File...",
+        "title": "New File",
         "icon": {
           "light": "resources/icons/light/new-file.svg",
           "dark": "resources/icons/dark/new-file.svg"
@@ -28,7 +28,7 @@
       },
       {
         "command": "docsidepanel.newFolder",
-        "title": "New Folder...",
+        "title": "New Folder",
         "icon": {
           "light": "resources/icons/light/new-folder.svg",
           "dark": "resources/icons/dark/new-folder.svg"
@@ -108,11 +108,23 @@
       "view/item/context": [
         {
           "command": "docsidepanel.file.rename",
-          "when": "view == documents"
+          "when": "view == documents",
+          "group": "navigation@3"
         },
         {
           "command": "docsidepanel.file.delete",
-          "when": "view == documents"
+          "when": "view == documents",
+          "group": "navigation@4"
+        },
+        {
+          "command": "docsidepanel.newFile",
+          "when": "view == documents",
+          "group": "navigation@1"
+        },
+        {
+          "command": "docsidepanel.newFolder",
+          "when": "view == documents",
+          "group": "navigation@2"
         }
       ]
     },
