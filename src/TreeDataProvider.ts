@@ -2,6 +2,8 @@ import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
 
+import { getPath } from './config'
+
 function getFilesFolders(path: string): string[] {
   if(!fs.existsSync(path)){
     return [];
@@ -70,7 +72,7 @@ export class DocumentationProvider implements vscode.TreeDataProvider<Document> 
 
       return Promise.resolve([]);
     } else {
-      const globalPath = vscode.workspace.getConfiguration('doc').get('path', '');
+      const globalPath = getPath();
 
       let files: string[] = getFilesFolders(globalPath);
 

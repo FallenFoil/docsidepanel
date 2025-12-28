@@ -2,7 +2,7 @@
   "name": "docsidepanel",
   "displayName": "DocSidePanel",
   "description": "A side panel to access a folder with all the documentation in markdown",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "repository": "https://github.com/FallenFoil/docsidepanel",
   "engines": {
     "vscode": "^1.81.0"
@@ -86,19 +86,9 @@
     "menus": {
       "view/title": [
         {
-          "command": "docsidepanel.newFile",
-          "when": "view == documents",
-          "group": "navigation@1"
-        },
-        {
-          "command": "docsidepanel.newFolder",
-          "when": "view == documents",
-          "group": "navigation@2"
-        },
-        {
           "command": "docsidepanel.refresh",
           "when": "view == documents",
-          "group": "navigation@3"
+          "group": "navigation@1"
         },
         {
           "command": "docsidepanel.documentationPath",
@@ -129,9 +119,9 @@
       ]
     },
     "configuration": {
-      "title": "Doc",
+      "title": "DocSidePanel",
       "properties": {
-        "doc.path": {
+        "docsidepanel.path": {
           "type": [
             "string",
             "null"
